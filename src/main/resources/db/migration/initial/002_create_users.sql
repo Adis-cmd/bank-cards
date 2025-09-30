@@ -1,16 +1,16 @@
 -- changelog Adis: 002 create user table
-create table users(
-    id                 bigserial primary key,
-    name               varchar(100),
-    surname            varchar(100),
-    email              varchar(255) unique not null,
-    password           varchar(255) not null,
-    enabled            boolean not null default true,
-    authorities_id     integer,
+CREATE TABLE USERS (
+    ID              BIGSERIAL PRIMARY KEY,
+    NAME            VARCHAR(100),
+    SURNAME         VARCHAR(100),
+    EMAIL           VARCHAR(255) UNIQUE NOT NULL,
+    PASSWORD        VARCHAR(255) NOT NULL,
+    ENABLED         BOOLEAN NOT NULL DEFAULT TRUE,
+    AUTHORITIES_ID  INTEGER,
 
-    constraint fk_user_authorities
-            foreign key (authorities_id)
-                references authorities (id)
-                on delete restrict
-                on update cascade
-)
+    CONSTRAINT FK_USER_AUTHORITIES
+        FOREIGN KEY (AUTHORITIES_ID)
+        REFERENCES AUTHORITIES (ID)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE
+);
