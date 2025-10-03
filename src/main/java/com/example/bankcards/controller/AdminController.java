@@ -1,6 +1,7 @@
 package com.example.bankcards.controller;
 
 import com.example.bankcards.dto.AuthDto;
+import com.example.bankcards.dto.BlockCardRequest;
 import com.example.bankcards.dto.TransactionDto;
 import com.example.bankcards.dto.UserDto;
 import com.example.bankcards.service.CardService;
@@ -127,12 +128,11 @@ public class AdminController {
     })
     @PostMapping("/cards/block")
     public ResponseEntity<String> approveBlock(
-            @Parameter(description = "ID карты для блокировки", required = true, example = "1")
-            @RequestParam Long cardId) {
-        cardService.approveBlock(cardId);
+            @Parameter(description = "Запрос на блокировку карты", required = true)
+            @Valid @RequestBody BlockCardRequest request) {
+        cardService.approveBlock(request.getCardId());
         return ResponseEntity.ok("Карта успешно заблокирована");
     }
-
     @Operation(
             summary = "Разблокировка карты",
             description = "Администратор разблокирует ранее заблокированную карту по её идентификатору"
@@ -162,9 +162,9 @@ public class AdminController {
     })
     @PostMapping("/cards/unblock")
     public ResponseEntity<String> unblock(
-            @Parameter(description = "ID карты для разблокировки", required = true, example = "1")
-            @RequestParam Long cardId) {
-        cardService.unblock(cardId);
+            @Parameter(description = "Запрос на разблокировку карты", required = true)
+            @Valid @RequestBody BlockCardRequest request) {
+        cardService.unblock(request.getCardId());
         return ResponseEntity.ok("Карта успешно разблокирована");
     }
 

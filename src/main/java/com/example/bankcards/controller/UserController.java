@@ -1,5 +1,6 @@
 package com.example.bankcards.controller;
 
+import com.example.bankcards.dto.BlockCardRequest;
 import com.example.bankcards.dto.CardDto;
 import com.example.bankcards.service.CardService;
 import com.example.bankcards.service.UserService;
@@ -10,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -111,15 +113,16 @@ public class UserController {
                     description = "Пользователь не аутентифицирован"
             )
     })
+
     @PostMapping("/request-block")
     public ResponseEntity<String> requestBlock(
-            @Parameter(description = "ID карты для блокировки", required = true, example = "1")
-            @RequestParam Long cardId,
+            @Parameter(description = "Запрос на блокировку карты", required = true)
+            @Valid @RequestBody BlockCardRequest request,
 
             @Parameter(description = "Аутентифицированный пользователь", hidden = true)
             Principal principal) {
 
-        cardService.requestBlock(principal.getName(), cardId);
+        cardService.requestBlock(principal.getName(), request.getCardId());
         return ResponseEntity.ok("Запрос на блокировку успешно отправлен");
     }
 }
